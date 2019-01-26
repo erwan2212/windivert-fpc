@@ -1,2 +1,3 @@
 # windivert-fpc
-freepascal unit and demo to use windivert
+freepascal unit to demonstrate a basic network sniffer .
+windivert site here : https://reqrypt.org/windivert.html
