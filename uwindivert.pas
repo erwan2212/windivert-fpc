@@ -72,6 +72,9 @@ function WinDivertHelperCalcChecksums(
 
 function WinDivertClose(handle:thandle):integer; cdecl; external 'windivert.dll';
 
+const WINDIVERT_FLAG_SNIFF:uint64 = 1;
+const WINDIVERT_FLAG_DROP:uint64 =  2;
+
 implementation
 //
 end.

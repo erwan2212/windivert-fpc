@@ -1,0 +1,12 @@
+*.bak
+*.o
+*.dcu
+*.a
+*.compiled
+*.dcu
+*.ppu
+*.dll
+*.exe
+*.~*
+*.map
+*.sys
