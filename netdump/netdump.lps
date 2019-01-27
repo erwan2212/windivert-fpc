@@ -9,9 +9,9 @@
         <Filename Value="netdump.lpr"/>
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="57"/>
-        <CursorPos Y="59"/>
-        <UsageCount Value="24"/>
+        <TopLine Value="15"/>
+        <CursorPos X="19" Y="30"/>
+        <UsageCount Value="25"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -20,7 +20,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
         <CursorPos X="51" Y="25"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
@@ -28,9 +28,9 @@
         <Filename Value="..\uwindivert.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="27"/>
-        <CursorPos X="5" Y="93"/>
-        <UsageCount Value="23"/>
+        <TopLine Value="76"/>
+        <CursorPos X="26" Y="103"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
@@ -41,11 +41,11 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
     </Units>
-    <JumpHistory Count="14" HistoryIndex="13">
+    <JumpHistory Count="22" HistoryIndex="21">
       <Position1>
         <Filename Value="netdump.lpr"/>
         <Caret Line="3" Column="70"/>
@@ -102,6 +102,38 @@
         <Filename Value="..\uwindivert.pas"/>
         <Caret Line="55" Column="28" TopLine="35"/>
       </Position14>
+      <Position15>
+        <Filename Value="netdump.lpr"/>
+        <Caret Line="13" Column="39"/>
+      </Position15>
+      <Position16>
+        <Filename Value="netdump.lpr"/>
+        <Caret Line="28" Column="78"/>
+      </Position16>
+      <Position17>
+        <Filename Value="netdump.lpr"/>
+        <Caret Line="13" Column="71"/>
+      </Position17>
+      <Position18>
+        <Filename Value="netdump.lpr"/>
+        <Caret Line="94" Column="66" TopLine="64"/>
+      </Position18>
+      <Position19>
+        <Filename Value="netdump.lpr"/>
+        <Caret Line="33" Column="51" TopLine="65"/>
+      </Position19>
+      <Position20>
+        <Filename Value="netdump.lpr"/>
+        <Caret Line="96" Column="29" TopLine="66"/>
+      </Position20>
+      <Position21>
+        <Filename Value="netdump.lpr"/>
+        <Caret Line="95" Column="3" TopLine="66"/>
+      </Position21>
+      <Position22>
+        <Filename Value="netdump.lpr"/>
+        <Caret Line="30" Column="19" TopLine="12"/>
+      </Position22>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>

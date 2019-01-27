@@ -10,7 +10,7 @@ uses  uwindivert in '..\uwindivert.pas',
   windows,sysutils,winsock, uconsole;
 
 
-procedure capture(param_:string);
+procedure capture(param_:string;const flag:uint64=1);
 var
 h:thandle;
 filter:pchar;
@@ -27,10 +27,13 @@ label done;
 begin
 priority:=0;
 getmem(filter,210);
+writeln('filter=' + param_);
+writeln('flag=' + inttostr(flag));
 //https://reqrypt.org/windivert-doc.html#filter_language
 //filter:='outbound and tcp.SrcPort == 80'+#0;
 if param_<>'' then filter:=pchar(param_) else filter:='ip';
-h := WinDivertOpen(filter, WINDIVERT_LAYER_NETWORK, priority, WINDIVERT_FLAG_SNIFF); //if no flag=sniff then packets are lost as not reinjected
+//0 or WINDIVERT_FLAG_SNIFF or WINDIVERT_FLAG_DROP
+h := WinDivertOpen(filter, WINDIVERT_LAYER_NETWORK, priority, flag);
 if (h = INVALID_HANDLE_VALUE) then
   begin
   writeln('invalid handle,'+inttostr(getlasterror));
@@ -90,6 +93,26 @@ end;
 
 begin
   //rather than  KeyPressed, we could have used getmessage/GetAsyncKeyState
-  if paramcount=1 then capture(paramstr(1)) else capture ('');
+  //writeln(cmdline);
+  if paramcount=0 then
+     begin
+     capture ('');
+     exit;
+     end;
+  if paramcount=1 then
+     begin
+     capture(paramstr(1));
+     exit;
+     end;
+  if (paramcount=2) and (pos('SNIFF',uppercase(cmdline))>0) then
+     begin
+     capture(paramstr(1),1);
+     exit;
+     end;
+  if (paramcount=2) and (pos('DROP',uppercase(cmdline))>0) then
+     begin
+     capture(paramstr(1),2);
+     exit;
+     end;
 end.
 
