@@ -10,9 +10,9 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="74"/>
-        <CursorPos X="22" Y="86"/>
-        <UsageCount Value="20"/>
+        <TopLine Value="87"/>
+        <CursorPos X="54" Y="103"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -20,7 +20,7 @@
         <Filename Value="uconsole.pas"/>
         <IsPartOfProject Value="True"/>
         <CursorPos X="38" Y="9"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
@@ -30,7 +30,7 @@
         <EditorIndex Value="2"/>
         <TopLine Value="76"/>
         <CursorPos X="21" Y="94"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
@@ -41,7 +41,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="28"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
       <Unit4>
@@ -53,7 +53,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit4>
     </Units>
-    <JumpHistory Count="7" HistoryIndex="6">
+    <JumpHistory Count="15" HistoryIndex="14">
       <Position1>
         <Filename Value="..\uwindivert.pas"/>
         <Caret Line="46" TopLine="31"/>
@@ -82,6 +82,38 @@
         <Filename Value="tcpredir.lpr"/>
         <Caret Line="90" Column="49" TopLine="62"/>
       </Position7>
+      <Position8>
+        <Filename Value="tcpredir.lpr"/>
+        <Caret Line="86" Column="22" TopLine="74"/>
+      </Position8>
+      <Position9>
+        <Filename Value="tcpredir.lpr"/>
+        <Caret Line="93" Column="74" TopLine="78"/>
+      </Position9>
+      <Position10>
+        <Filename Value="tcpredir.lpr"/>
+        <Caret Line="128" Column="88" TopLine="98"/>
+      </Position10>
+      <Position11>
+        <Filename Value="tcpredir.lpr"/>
+        <Caret Line="13" Column="48" TopLine="11"/>
+      </Position11>
+      <Position12>
+        <Filename Value="tcpredir.lpr"/>
+        <Caret Line="34" Column="107" TopLine="11"/>
+      </Position12>
+      <Position13>
+        <Filename Value="tcpredir.lpr"/>
+        <Caret Line="30" Column="3" TopLine="15"/>
+      </Position13>
+      <Position14>
+        <Filename Value="tcpredir.lpr"/>
+        <Caret Line="35" Column="64" TopLine="15"/>
+      </Position14>
+      <Position15>
+        <Filename Value="tcpredir.lpr"/>
+        <Caret Line="103" Column="60" TopLine="74"/>
+      </Position15>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>
