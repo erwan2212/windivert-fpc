@@ -2,7 +2,7 @@
   {$MODE Delphi}
 {$ENDIF}
 
-program netfilter;
+program passthru;
 {$APPTYPE CONSOLE}
 
 uses  uwindivert in '..\uwindivert.pas',
@@ -15,7 +15,7 @@ const
 
 const batch = 1;
 
-function passthru(param:pointer):dword;stdcall;
+function passthru_thread(param:pointer):dword;stdcall;
 var
    packet:array[0..MAXBUF-1] of UINT8;
 packet_len, addr_len:UINT;
@@ -77,9 +77,9 @@ if WinDivertSetParam(h, WINDIVERT_PARAM_QUEUE_TIME, 2048)=false then
   end;
 
 
-for i:=1 to 4 do CreateThread (nil,1,@passthru,@h,0,tid);
+for i:=1 to 4 do CreateThread (nil,1,@passthru_thread,@h,0,tid);
 
-passthru (@h);
+passthru_thread (@h);
 
 done:
 WinDivertClose (h);

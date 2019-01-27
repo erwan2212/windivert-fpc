@@ -11,7 +11,7 @@
       </Flags>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
-      <Title Value="passthru"/>
+      <Title Value="tcpredir"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
@@ -28,9 +28,8 @@
     </RunParams>
     <Units Count="4">
       <Unit0>
-        <Filename Value="passthru.lpr"/>
+        <Filename Value="tcpredir.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="netfilter"/>
       </Unit0>
       <Unit1>
         <Filename Value="uconsole.pas"/>
@@ -50,7 +49,7 @@
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="$(TargetCPU)-$(TargetOS)\passthru"/>
+      <Filename Value="$(TargetCPU)-$(TargetOS)\tcpredir"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

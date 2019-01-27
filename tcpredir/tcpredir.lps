@@ -4,14 +4,14 @@
     <PathDelim Value="\"/>
     <Version Value="10"/>
     <BuildModes Active="Default"/>
-    <Units Count="6">
+    <Units Count="5">
       <Unit0>
-        <Filename Value="passthru.lpr"/>
+        <Filename Value="tcpredir.lpr"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="netfilter"/>
+        <UnitName Value="netdump"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <CursorPos X="25" Y="18"/>
+        <CursorPos X="17" Y="5"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -19,7 +19,7 @@
       <Unit1>
         <Filename Value="uconsole.pas"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="43" Y="12"/>
+        <CursorPos X="38" Y="9"/>
         <UsageCount Value="24"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -28,8 +28,8 @@
         <Filename Value="..\uwindivert.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="70"/>
-        <CursorPos X="20" Y="85"/>
+        <TopLine Value="76"/>
+        <CursorPos X="26" Y="103"/>
         <UsageCount Value="24"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -45,23 +45,15 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
       <Unit4>
-        <Filename Value="netfilter.lpr"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="48"/>
-        <CursorPos Y="50"/>
-        <UsageCount Value="21"/>
-        <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit4>
-      <Unit5>
         <Filename Value="netdump.lpr"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="57"/>
-        <CursorPos Y="59"/>
-        <UsageCount Value="24"/>
+        <TopLine Value="15"/>
+        <CursorPos X="19" Y="30"/>
+        <UsageCount Value="25"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
-      </Unit5>
+      </Unit4>
     </Units>
-    <JumpHistory Count="9" HistoryIndex="8">
+    <JumpHistory Count="5" HistoryIndex="4">
       <Position1>
         <Filename Value="..\uwindivert.pas"/>
         <Caret Line="46" TopLine="31"/>
@@ -82,22 +74,6 @@
         <Filename Value="..\uwindivert.pas"/>
         <Caret Line="55" Column="28" TopLine="35"/>
       </Position5>
-      <Position6>
-        <Filename Value="..\uwindivert.pas"/>
-        <Caret Line="80" Column="5" TopLine="60"/>
-      </Position6>
-      <Position7>
-        <Filename Value="..\uwindivert.pas"/>
-        <Caret Line="80" Column="5" TopLine="60"/>
-      </Position7>
-      <Position8>
-        <Filename Value="..\uwindivert.pas"/>
-        <Caret Line="85" Column="20" TopLine="70"/>
-      </Position8>
-      <Position9>
-        <Filename Value="..\uwindivert.pas"/>
-        <Caret Line="85" Column="20" TopLine="70"/>
-      </Position9>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>
