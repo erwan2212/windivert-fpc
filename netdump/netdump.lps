@@ -4,24 +4,17 @@
     <PathDelim Value="\"/>
     <Version Value="10"/>
     <BuildModes Active="Default"/>
-    <Units Count="3">
+    <Units Count="4">
       <Unit0>
         <Filename Value="netdump.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="63"/>
-        <CursorPos X="57" Y="93"/>
+        <TopLine Value="5"/>
+        <CursorPos X="52" Y="75"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
       <Unit1>
-        <Filename Value="..\uwindivert.pas"/>
-        <EditorIndex Value="2"/>
-        <CursorPos X="16"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
-      </Unit1>
-      <Unit2>
         <Filename Value="uconsole.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
@@ -29,9 +22,30 @@
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\uwindivert.pas"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="61"/>
+        <CursorPos X="5" Y="93"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="..\ipheader.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="20"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit3>
     </Units>
-    <JumpHistory Count="9" HistoryIndex="8">
+    <JumpHistory Count="14" HistoryIndex="13">
       <Position1>
         <Filename Value="netdump.lpr"/>
         <Caret Line="3" Column="70"/>
@@ -68,6 +82,26 @@
         <Filename Value="netdump.lpr"/>
         <Caret Line="32" Column="41" TopLine="17"/>
       </Position9>
+      <Position10>
+        <Filename Value="..\uwindivert.pas"/>
+        <Caret Line="46" TopLine="31"/>
+      </Position10>
+      <Position11>
+        <Filename Value="..\uwindivert.pas"/>
+        <Caret Line="47" Column="20" TopLine="31"/>
+      </Position11>
+      <Position12>
+        <Filename Value="..\uwindivert.pas"/>
+        <Caret Line="49" Column="20" TopLine="32"/>
+      </Position12>
+      <Position13>
+        <Filename Value="..\uwindivert.pas"/>
+        <Caret Line="50" Column="20" TopLine="34"/>
+      </Position13>
+      <Position14>
+        <Filename Value="..\uwindivert.pas"/>
+        <Caret Line="55" Column="28" TopLine="35"/>
+      </Position14>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>

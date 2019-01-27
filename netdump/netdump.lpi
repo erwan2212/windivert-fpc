@@ -26,7 +26,7 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <Units Count="2">
+    <Units Count="4">
       <Unit0>
         <Filename Value="netdump.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -35,13 +35,21 @@
         <Filename Value="uconsole.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit1>
+      <Unit2>
+        <Filename Value="..\uwindivert.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\ipheader.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
     <Version Value="11"/>
     <PathDelim Value="\"/>
     <Target>
-      <Filename Value="netdump"/>
+      <Filename Value="$(TargetCPU)-$(TargetOS)\netdump"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>

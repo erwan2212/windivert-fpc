@@ -32,10 +32,27 @@ type WINDIVERT_PARAM=(
     WINDIVERT_PARAM_QUEUE_TIME = 1
 );
 
+{
+//pre 1.4
 type WINDIVERT_ADDRESS=record
     IfIdx:dword;                       //* Packet's interface index. */
     SubIfIdx:dword;                    //* Packet's sub-interface index. */
     Direction:byte;                   //* Packet's direction. */
+    end;
+    PWINDIVERT_ADDRESS = ^WINDIVERT_ADDRESS;
+}
+
+//post 1.4
+type WINDIVERT_ADDRESS=record
+    Timestamp:INT64;
+    IfIdx:UINT32;
+    SubIfIdx:UINT32;
+    Direction:UINT8;
+    Loopback:UINT8;
+    Impostor:UINT8;
+    PseudoIPChecksum:UINT8;
+    PseudoTCPChecksum:UINT8;
+    PseudoUDPChecksum:UINT8;
     end;
     PWINDIVERT_ADDRESS = ^WINDIVERT_ADDRESS;
 
