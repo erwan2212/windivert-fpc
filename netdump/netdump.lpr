@@ -57,7 +57,6 @@ while 1=1 do
   break;
   end;
 
-
   pipheader:=@packet[0];
 
   str_time:=FormatDateTime('hh:nn:ss:zzz', now);

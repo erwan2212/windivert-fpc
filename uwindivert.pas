@@ -75,6 +75,16 @@ function WinDivertRecv(
             pAddr:PWINDIVERT_ADDRESS;
             readLen:puint):bool; stdcall; external 'windivert.dll';
 
+
+function WinDivertRecvEx(
+     handle:thandle;
+     pPacket:pointer;
+     packetLen:uint;
+     flags:UInt64;
+     pAddr:PWINDIVERT_ADDRESS;
+     readLen:puint;
+     lpOverlapped:LPOVERLAPPED):bool; stdcall; external 'windivert.dll';
+
 function WinDivertSend(
     handle:thandle;
     pPacket:pointer;
