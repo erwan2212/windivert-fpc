@@ -96,7 +96,10 @@ begin
   //writeln(cmdline);
   if paramcount=0 then
      begin
-     capture ('');
+     writeln('netdump 1.0 by erwan2212@gmail.com');
+     writeln('netdump filter [SNIFF:DROP]');
+     writeln('see https://reqrypt.org/windivert-doc.html#filter_language for filter syntax');
+     writeln('ex: netdump ip');
      exit;
      end;
   if paramcount=1 then
