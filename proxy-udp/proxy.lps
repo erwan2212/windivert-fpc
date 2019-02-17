@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="10"/>
+    <BuildModes Active="Release"/>
+    <Units Count="4">
+      <Unit0>
+        <Filename Value="proxy.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="101"/>
+        <CursorPos X="50" Y="116"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="uconsole.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UsageCount Value="20"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="..\uwindivert.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="82"/>
+        <CursorPos Y="112"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="..\ipheader.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UsageCount Value="20"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit3>
+    </Units>
+    <JumpHistory Count="13" HistoryIndex="12">
+      <Position1>
+        <Filename Value="proxy.lpr"/>
+        <Caret Line="12" Column="30"/>
+      </Position1>
+      <Position2>
+        <Filename Value="proxy.lpr"/>
+        <Caret Line="108" Column="70" TopLine="92"/>
+      </Position2>
+      <Position3>
+        <Filename Value="proxy.lpr"/>
+        <Caret Line="108" Column="70" TopLine="92"/>
+      </Position3>
+      <Position4>
+        <Filename Value="proxy.lpr"/>
+        <Caret Line="106" Column="9" TopLine="92"/>
+      </Position4>
+      <Position5>
+        <Filename Value="proxy.lpr"/>
+        <Caret Line="122" Column="10" TopLine="106"/>
+      </Position5>
+      <Position6>
+        <Filename Value="proxy.lpr"/>
+        <Caret Line="130" Column="63" TopLine="114"/>
+      </Position6>
+      <Position7>
+        <Filename Value="proxy.lpr"/>
+        <Caret Line="143" Column="10" TopLine="127"/>
+      </Position7>
+      <Position8>
+        <Filename Value="..\uwindivert.pas"/>
+        <Caret Line="100" Column="29" TopLine="76"/>
+      </Position8>
+      <Position9>
+        <Filename Value="..\uwindivert.pas"/>
+        <Caret Line="96" Column="25" TopLine="76"/>
+      </Position9>
+      <Position10>
+        <Filename Value="proxy.lpr"/>
+        <Caret Line="108" Column="70" TopLine="92"/>
+      </Position10>
+      <Position11>
+        <Filename Value="proxy.lpr"/>
+        <Caret Line="105" Column="9" TopLine="92"/>
+      </Position11>
+      <Position12>
+        <Filename Value="..\uwindivert.pas"/>
+        <Caret Line="96" Column="25" TopLine="76"/>
+      </Position12>
+      <Position13>
+        <Filename Value="proxy.lpr"/>
+        <Caret Line="108" Column="70" TopLine="92"/>
+      </Position13>
+    </JumpHistory>
+  </ProjectSession>
+</CONFIG>
