@@ -92,15 +92,25 @@ function WinDivertSend(
     pAddr:PWINDIVERT_ADDRESS;
     writeLen:puint):bool; stdcall; external 'windivert.dll';
 
+{pre 1.4
 function WinDivertHelperCalcChecksums(
     pPacket:pointer;
     packetLen:uint;
+    flags:UInt64):uint;stdcall; external 'windivert.dll';
+}
+function WinDivertHelperCalcChecksums(
+    pPacket:pointer;
+    packetLen:uint;
+    pAddr:PWINDIVERT_ADDRESS;
     flags:UInt64):uint;stdcall; external 'windivert.dll';
 
 function WinDivertClose(handle:thandle):integer; cdecl; external 'windivert.dll';
 
 const WINDIVERT_FLAG_SNIFF:uint64 = 1;
 const WINDIVERT_FLAG_DROP:uint64 =  2;
+
+const WINDIVERT_DIRECTION_OUTBOUND:UINT8 = 0; // for outbound packets.
+const WINDIVERT_DIRECTION_INBOUND:UINT8 = 1; // for inbound packets.
 
 implementation
 //
