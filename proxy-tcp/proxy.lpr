@@ -25,7 +25,7 @@ packet_len,written,payload_len:integer;
 i:byte;
 pipheader:PIP_Header;
 src_port,dest_port:word;
-  str_time,str_prot,str_srcip,str_destip,str_len:string;
+  str_dir,str_time,str_prot,str_srcip,str_destip,str_len:string;
   //
   ip_header,ipv6_header, icmp_header, icmpv6_header, tcp_header,udp_header, payload:pointer;
 
@@ -34,7 +34,9 @@ begin
 priority:=0;
 getmem(filter,210);
 //https://reqrypt.org/windivert-doc.html#filter_language
+//if rogue server is local, return traffic direction could be seen as OUTBOUND
 filter:=pchar('((outbound and tcp.DstPort == '+original_port+') or (inbound and tcp.SrcPort == '+new_port+'))') ;
+//filter:=pchar('tcp.DstPort == '+original_port+' or tcp.SrcPort == '+new_port) ;
 writeln('filter=' + strpas(filter));
 //flag 0 or WINDIVERT_FLAG_SNIFF (1) or WINDIVERT_FLAG_DROP (2)
 h := WinDivertOpen(filter, WINDIVERT_LAYER_NETWORK, priority, 0);
@@ -86,6 +88,9 @@ while 1=1 do
   str_srcip:=strpas(Inet_Ntoa(TInAddr(pipheader^.ip_srcaddr)));
   str_destip:=strpas(Inet_Ntoa(TInAddr(pipheader^.ip_destaddr)));
 
+  if isByteOn(addr.Direction,0)=true then str_dir:='INBOUND';
+  if isByteOn(addr.Direction,0)=false then str_dir:='OUTBOUND';
+
   For i := 0 To 8 Do
         If pipheader^.ip_protocol = IPPROTO[i].itype Then str_prot := IPPROTO[i].name;
 
@@ -105,7 +110,7 @@ while 1=1 do
       //when traffic from client to transparent proxy server
       //Make sure that Privoxy's own requests aren't redirected as well, if running local
       //accept-intercepted-requests=1 in privoxy
-      if (dest_port =strtoint(original_port)) and  (addr.Direction <>WINDIVERT_DIRECTION_INBOUND) then
+      if (dest_port =strtoint(original_port)) and  (isByteOn(addr.Direction,0)=false) then //outbound
       begin
       //we need to change that dst port to new_port ...
       writeln('client to remote');
@@ -127,12 +132,13 @@ while 1=1 do
       end;
 
       //when traffic from transparent proxy server to client
-      if (src_port =strtoint(new_port )) and (addr.Direction =WINDIVERT_DIRECTION_INBOUND)
+      //if rogue server is local, return traffic direction could be seen as OUTBOUND - if so, comment out the inbound condition below
+      if (src_port =strtoint(new_port )) and (isByteOn(addr.Direction,0)=true) //inbound
                    and (ports[PTCP_Header(@pipheader^.data)^.dst_portno]<>0) then
       begin
       //we need to change that src port to original_port
       //addr.Direction :=0 ;
-      writeln('proxy to client');
+      writeln('remote to client');
       writeln('original ip='+strpas(Inet_Ntoa(TInAddr(ports[PTCP_Header(@pipheader^.data)^.dst_portno]))));
       pipheader^.ip_srcaddr:=ports[PTCP_Header(@pipheader^.data)^.dst_portno] ;
       PTCP_Header(@pipheader^.data)^.src_portno:=htons(strtoint(original_port));

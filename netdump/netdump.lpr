@@ -50,7 +50,6 @@ begin
 
 end;
 
-
 procedure capture(param_:string;const flag:uint64=1);
 var
 h:thandle;
@@ -63,7 +62,7 @@ packet_len:integer;
 i:byte;
 pipheader:PIP_Header;
 src_port,dest_port:word;
-  str_time,str_prot,str_srcip,str_destip,str_len:string;
+str_dir,str_time,str_prot,str_srcip,str_destip,str_len:string;
 label done;
 begin
 priority:=0;
@@ -107,6 +106,10 @@ while 1=1 do
   str_time:=FormatDateTime('hh:nn:ss:zzz', now);
   str_srcip:=strpas(Inet_Ntoa(TInAddr(pipheader^.ip_srcaddr)));
   str_destip:=strpas(Inet_Ntoa(TInAddr(pipheader^.ip_destaddr)));
+  //if addr.Direction=WINDIVERT_DIRECTION_OUTBOUND then str_dir:='OUTBOUND' else str_dir:='INBOUND';
+
+  if isByteOn(addr.Direction,0)=true then str_dir:='INBOUND';
+  if isByteOn(addr.Direction,0)=false then str_dir:='OUTBOUND';
 
   For i := 0 To 8 Do
         If pipheader^.ip_protocol = IPPROTO[i].itype Then str_prot := IPPROTO[i].name;
@@ -124,7 +127,7 @@ while 1=1 do
            dest_port:= ntohs(PUDP_Header(@pipheader^.data )^.dst_portno )  ;
       end;
 
-  //writeln(str_time+' '+str_prot+' '+str_srcip+':'+inttostr(src_port)+' '+str_destip+':'+inttostr(dest_port)+' '+str_len + ' Bytes Addr:'+inttostr(addr.Direction));
+  //writeln(str_time+' '+str_prot+' '+str_srcip+':'+inttostr(src_port)+' '+str_destip+':'+inttostr(dest_port)+' '+str_len + ' Bytes Dir.:'+str_dir);
   writeln(str_time+' '+str_prot+' '+str_srcip+':'+inttostr(src_port)+' '+str_destip+':'+inttostr(dest_port)+' '+str_len + ' Bytes');
   if cap=true then save_frame(strtoint(str_len ),pipheader,pchar(str_time) );
   if KeyPressed =true then break;
@@ -137,7 +140,7 @@ WinDivertClose (h);
 end;
 
 begin
-  //rather than  KeyPressed, we could have used getmessage/GetAsyncKeyState
+   //rather than  KeyPressed, we could have used getmessage/GetAsyncKeyState
   //writeln(cmdline);
   if paramcount=0 then
      begin
@@ -146,7 +149,7 @@ begin
      writeln('see https://reqrypt.org/windivert-doc.html#filter_language for filter syntax');
      writeln('ex: netdump ip');
      writeln('ex: netdump tcp.Syn');
-     writeln('ex: netdump (tcp.DstPort==80 or tcp.DstPort==443)');
+     writeln('ex: netdump "(tcp.DstPort==80 or tcp.DstPort==443)"');
      exit;
      end;
   if paramcount=1 then

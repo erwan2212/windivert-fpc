@@ -10,7 +10,7 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <TopLine Value="76"/>
-        <CursorPos X="34" Y="102"/>
+        <CursorPos X="34" Y="91"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -38,7 +38,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
     </Units>
-    <JumpHistory Count="19" HistoryIndex="18">
+    <JumpHistory Count="22" HistoryIndex="21">
       <Position1>
         <Filename Value="proxy.lpr"/>
         <Caret Line="12" Column="30"/>
@@ -115,6 +115,18 @@
         <Filename Value="proxy.lpr"/>
         <Caret Line="101" Column="35" TopLine="75"/>
       </Position19>
+      <Position20>
+        <Filename Value="proxy.lpr"/>
+        <Caret Line="133" Column="78" TopLine="109"/>
+      </Position20>
+      <Position21>
+        <Filename Value="proxy.lpr"/>
+        <Caret Line="111" Column="93" TopLine="104"/>
+      </Position21>
+      <Position22>
+        <Filename Value="proxy.lpr"/>
+        <Caret Line="135" Column="20" TopLine="110"/>
+      </Position22>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>

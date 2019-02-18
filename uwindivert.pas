@@ -43,18 +43,22 @@ type WINDIVERT_ADDRESS=record
 }
 
 //post 1.4
-type WINDIVERT_ADDRESS=record
-    Timestamp:INT64;
-    IfIdx:UINT32;
-    SubIfIdx:UINT32;
-    Direction:UINT8;
-    Loopback:UINT8;
-    Impostor:UINT8;
-    PseudoIPChecksum:UINT8;
-    PseudoTCPChecksum:UINT8;
-    PseudoUDPChecksum:UINT8;
+//http://docwiki.embarcadero.com/RADStudio/Tokyo/en/Align_fields_(Delphi)
+//{$ALIGN OFF}
+type WINDIVERT_ADDRESS= packed record    //22 bytes, 24 if packed
+    Timestamp:INT64;     //8
+    IfIdx:UINT32;        //4
+    SubIfIdx:UINT32;     //4
+    Direction:UINT8;     //1
+    Loopback:UINT8;      //1
+    Impostor:UINT8;      //1
+    PseudoIPChecksum:UINT8; //1
+    PseudoTCPChecksum:UINT8;//1
+    PseudoUDPChecksum:UINT8;//1
+    //reserved:uint8:2;
     end;
     PWINDIVERT_ADDRESS = ^WINDIVERT_ADDRESS;
+   // {$ALIGN OFF}
 
 function WinDivertOpen(
     filter:pchar;
@@ -112,7 +116,38 @@ const WINDIVERT_FLAG_DROP:uint64 =  2;
 const WINDIVERT_DIRECTION_OUTBOUND:UINT8 = 0; // for outbound packets.
 const WINDIVERT_DIRECTION_INBOUND:UINT8 = 1; // for inbound packets.
 
+function isByteOn(N: byte; bit_position: integer):boolean;
+
 implementation
-//
+
+function isByteOn(N: byte; bit_position: integer):boolean;
+begin
+  result := N and (1 shl bit_position) = 1 shl bit_position;
+end;
+
+//get if a particular bit is 1
+function Get_a_Bit(const aValue: Cardinal; const Bit: Byte): Boolean;
+begin
+  Result := (aValue and (1 shl Bit)) <> 0;
+end;
+
+//set a particular bit as 1
+function Set_a_Bit(const aValue: Cardinal; const Bit: Byte): Cardinal;
+begin
+  Result := aValue or (1 shl Bit);
+end;
+
+//set a particular bit as 0
+function Clear_a_Bit(const aValue: Cardinal; const Bit: Byte): Cardinal;
+begin
+  Result := aValue and not (1 shl Bit);
+end;
+
+//Enable o disable a bit
+function Enable_a_Bit(const aValue: Cardinal; const Bit: Byte; const Flag: Boolean): Cardinal;
+begin
+  Result := (aValue or (1 shl Bit)) xor (Integer(not Flag) shl Bit);
+end;
+
 end.
 

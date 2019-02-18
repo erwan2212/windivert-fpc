@@ -25,7 +25,7 @@ packet_len,written,payload_len:integer;
 i:byte;
 pipheader:PIP_Header;
 src_port,dest_port:word;
-  str_time,str_prot,str_srcip,str_destip,str_len:string;
+  str_dir,str_time,str_prot,str_srcip,str_destip,str_len:string;
   //
   ip_header,ipv6_header, icmp_header, icmpv6_header, tcp_header,udp_header, payload:pointer;
 
@@ -34,7 +34,9 @@ begin
 priority:=0;
 getmem(filter,210);
 //https://reqrypt.org/windivert-doc.html#filter_language
+//if rogue server is local, return traffic direction could be seen as OUTBOUND
 filter:=pchar('((outbound and udp.DstPort == '+original_port+') or (inbound and udp.SrcPort == '+new_port+'))') ;
+//filter:=pchar('udp.DstPort == '+original_port+' or udp.SrcPort == '+new_port) ;
 writeln('filter=' + strpas(filter));
 //flag 0 or WINDIVERT_FLAG_SNIFF (1) or WINDIVERT_FLAG_DROP (2)
 h := WinDivertOpen(filter, WINDIVERT_LAYER_NETWORK, priority, 0);
@@ -76,15 +78,17 @@ while 1=1 do
                         @payload, @payload_len);
   }
 
-  writeln('direction:'+inttostr(addr.Direction ));
-  //writeln('IfIdx:'+inttostr(addr.IfIdx ));
-
   pipheader:=@packet[0];
 
   str_time:=FormatDateTime('hh:nn:ss:zzz', now);
   str_len:=inttostr(ntohs(pipheader^.ip_totallength) );
   str_srcip:=strpas(Inet_Ntoa(TInAddr(pipheader^.ip_srcaddr)));
   str_destip:=strpas(Inet_Ntoa(TInAddr(pipheader^.ip_destaddr)));
+
+  if isByteOn(addr.Direction,0)=true then str_dir:='INBOUND';
+  if isByteOn(addr.Direction,0)=false then str_dir:='OUTBOUND';
+  //writeln('direction:'+str_dir);
+  //writeln('IfIdx:'+inttostr(addr.IfIdx ));
 
   For i := 0 To 8 Do
         If pipheader^.ip_protocol = IPPROTO[i].itype Then str_prot := IPPROTO[i].name;
@@ -105,13 +109,13 @@ while 1=1 do
       //when traffic from client to transparent proxy server
       //Make sure that Privoxy's own requests aren't redirected as well, if running local
       //accept-intercepted-requests=1 in privoxy
-      if (dest_port =strtoint(original_port)) and  (addr.Direction <>WINDIVERT_DIRECTION_INBOUND) then  //= WINDIVERT_DIRECTION_OUTBOUND not working since =32
+      if (dest_port =strtoint(original_port)) and  (isByteOn(addr.Direction,0)=false) then  // WINDIVERT_DIRECTION_OUTBOUND
       begin
       //we need to change that dst port to new_port ...
       writeln('client to remote');
       //the below is to associate a remote ip to a local dynamic port
       //a bit rough but works for now...
-      addr.Direction :=WINDIVERT_DIRECTION_OUTBOUND;
+      //addr.Direction :=WINDIVERT_DIRECTION_OUTBOUND;
       ports[Pudp_Header(@pipheader^.data)^.src_portno ]:= pipheader^.ip_destaddr;
       pipheader^.ip_destaddr:=(inet_Addr(PansiChar(ansistring(new_ip)))); //htonl(INADDR_LOOPBACK)
       Pudp_Header(@pipheader^.data)^.dst_portno:=htons(strtoint(new_port));
@@ -127,11 +131,12 @@ while 1=1 do
       end;
 
       //when traffic from transparent proxy server to client
-      if (src_port =strtoint(new_port )) and (addr.Direction =WINDIVERT_DIRECTION_INBOUND)
+      //if rogue server is local, direction could be seen as OUTBOUND
+      if (src_port =strtoint(new_port )) and (isByteOn(addr.Direction,0)=true) // WINDIVERT_DIRECTION_INBOUND
                    and (ports[Pudp_Header(@pipheader^.data)^.dst_portno]<>0) then
       begin
       //we need to change that src port to original_port
-      addr.Direction :=WINDIVERT_DIRECTION_INBOUND ;
+      //addr.Direction :=WINDIVERT_DIRECTION_INBOUND ;
       writeln('remote to client');
       writeln('original ip='+strpas(Inet_Ntoa(TInAddr(ports[Pudp_Header(@pipheader^.data)^.dst_portno]))));
       pipheader^.ip_srcaddr:=ports[Pudp_Header(@pipheader^.data)^.dst_portno] ;
@@ -148,7 +153,7 @@ while 1=1 do
       end;
 
 
-  writeln(str_time+' '+str_prot+' '+str_srcip+':'+inttostr(src_port)+' '+str_destip+':'+inttostr(dest_port)+' '+str_len + ' Bytes'+' Dir:'+inttostr(addr.Direction ));
+  writeln(str_time+' '+str_prot+' '+str_srcip+':'+inttostr(src_port)+' '+str_destip+':'+inttostr(dest_port)+' '+str_len + ' Bytes'+' Dir:'+str_dir);
   if KeyPressed =true then break;
  end;
 
