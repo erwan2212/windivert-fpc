@@ -10,8 +10,8 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="72"/>
-        <CursorPos X="47" Y="90"/>
+        <TopLine Value="15"/>
+        <CursorPos X="33" Y="28"/>
         <UsageCount Value="24"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -28,8 +28,8 @@
         <Filename Value="..\uwindivert.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="76"/>
-        <CursorPos X="21" Y="94"/>
+        <TopLine Value="89"/>
+        <CursorPos X="10" Y="105"/>
         <UsageCount Value="28"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -53,7 +53,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit4>
     </Units>
-    <JumpHistory Count="16" HistoryIndex="15">
+    <JumpHistory Count="20" HistoryIndex="19">
       <Position1>
         <Filename Value="..\uwindivert.pas"/>
         <Caret Line="46" TopLine="31"/>
@@ -118,6 +118,22 @@
         <Filename Value="tcpredir.lpr"/>
         <Caret Line="65" Column="12" TopLine="63"/>
       </Position16>
+      <Position17>
+        <Filename Value="tcpredir.lpr"/>
+        <Caret Line="63" Column="37" TopLine="48"/>
+      </Position17>
+      <Position18>
+        <Filename Value="tcpredir.lpr"/>
+        <Caret Line="89" Column="10" TopLine="73"/>
+      </Position18>
+      <Position19>
+        <Filename Value="tcpredir.lpr"/>
+        <Caret Line="91" Column="38" TopLine="73"/>
+      </Position19>
+      <Position20>
+        <Filename Value="tcpredir.lpr"/>
+        <Caret Line="89" Column="66" TopLine="73"/>
+      </Position20>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>
