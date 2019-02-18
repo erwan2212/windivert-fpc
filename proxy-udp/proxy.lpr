@@ -105,13 +105,13 @@ while 1=1 do
       //when traffic from client to transparent proxy server
       //Make sure that Privoxy's own requests aren't redirected as well, if running local
       //accept-intercepted-requests=1 in privoxy
-      if (dest_port =strtoint(original_port)) and  (addr.Direction <>WINDIVERT_DIRECTION_INBOUND) then
+      if (dest_port =strtoint(original_port)) and  (addr.Direction <>WINDIVERT_DIRECTION_INBOUND) then  //= WINDIVERT_DIRECTION_OUTBOUND not working since =32
       begin
       //we need to change that dst port to new_port ...
       writeln('client to remote');
       //the below is to associate a remote ip to a local dynamic port
       //a bit rough but works for now...
-      //addr.Direction :=1;
+      addr.Direction :=WINDIVERT_DIRECTION_OUTBOUND;
       ports[Pudp_Header(@pipheader^.data)^.src_portno ]:= pipheader^.ip_destaddr;
       pipheader^.ip_destaddr:=(inet_Addr(PansiChar(ansistring(new_ip)))); //htonl(INADDR_LOOPBACK)
       Pudp_Header(@pipheader^.data)^.dst_portno:=htons(strtoint(new_port));
@@ -131,8 +131,8 @@ while 1=1 do
                    and (ports[Pudp_Header(@pipheader^.data)^.dst_portno]<>0) then
       begin
       //we need to change that src port to original_port
-      //addr.Direction :=0 ;
-      writeln('proxy to client');
+      addr.Direction :=WINDIVERT_DIRECTION_INBOUND ;
+      writeln('remote to client');
       writeln('original ip='+strpas(Inet_Ntoa(TInAddr(ports[Pudp_Header(@pipheader^.data)^.dst_portno]))));
       pipheader^.ip_srcaddr:=ports[Pudp_Header(@pipheader^.data)^.dst_portno] ;
       Pudp_Header(@pipheader^.data)^.src_portno:=htons(strtoint(original_port));
@@ -148,7 +148,7 @@ while 1=1 do
       end;
 
 
-  writeln(str_time+' '+str_prot+' '+str_srcip+':'+inttostr(src_port)+' '+str_destip+':'+inttostr(dest_port)+' '+str_len + ' Bytes');
+  writeln(str_time+' '+str_prot+' '+str_srcip+':'+inttostr(src_port)+' '+str_destip+':'+inttostr(dest_port)+' '+str_len + ' Bytes'+' Dir:'+inttostr(addr.Direction ));
   if KeyPressed =true then break;
  end;
 

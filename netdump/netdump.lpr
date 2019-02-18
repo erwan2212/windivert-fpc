@@ -7,7 +7,48 @@ program netdump;
 
 uses  uwindivert in '..\uwindivert.pas',
   ipheader in '..\ipheader.pas',
-  windows,sysutils,winsock, uconsole;
+  windows,sysutils,winsock, uconsole,pcaptools;
+
+var
+  cap:boolean=false;
+  fromf:file;
+
+procedure open_cap;
+const DLT_EN10MB      =1;
+begin
+AssignFile(FromF, 'dump'+formatdatetime('hh-nn-ss-zzz', now)+'.cap');
+Rewrite (FromF,1);
+write_cap_header(fromf,DLT_EN10MB);
+end;
+
+procedure close_cap;
+begin
+closefile(fromf);
+end;
+
+procedure save_frame(len:integer;data:pointer;ptime:pchar);
+var
+buf:pchar;
+begin
+
+    if len>0 then
+    begin
+       //mode_raw : dont forget ethernet header !
+       len:=len+14;
+       buf:=allocmem(len); //allocmem=getmem+Initialize
+       //ethernet header 14 bytes
+       buf[12]:=#8;buf[13]:=#0;
+       //we could fill in the mac addresses by resolving ip to mac...
+       {
+       if PIP_Header(data)^.ip_srcaddr=inet_Addr(PChar(ip)) then copymemory(@buf[6],@mac[0],6);
+       if PIP_Header(data)^.ip_destaddr=inet_Addr(PChar(ip)) then copymemory(@buf[0],@mac[0],6);
+       }
+       copymemory(@buf[14],data,len-14);
+       write_cap_packet(fromf,len,ptime,buf);
+       FreeMem(buf,len);
+    end; //if len>0 then
+
+end;
 
 
 procedure capture(param_:string;const flag:uint64=1);
@@ -51,6 +92,7 @@ if WinDivertSetParam(h, WINDIVERT_PARAM_QUEUE_TIME, 2048)=false then
   exit;
   end;
 
+if cap=true then open_cap;
 
 while 1=1 do
   begin
@@ -61,7 +103,7 @@ while 1=1 do
   end;
 
   pipheader:=@packet[0];
-
+  str_len:=inttostr(ntohs(pipheader^.ip_totallength)) ;
   str_time:=FormatDateTime('hh:nn:ss:zzz', now);
   str_srcip:=strpas(Inet_Ntoa(TInAddr(pipheader^.ip_srcaddr)));
   str_destip:=strpas(Inet_Ntoa(TInAddr(pipheader^.ip_destaddr)));
@@ -82,11 +124,14 @@ while 1=1 do
            dest_port:= ntohs(PUDP_Header(@pipheader^.data )^.dst_portno )  ;
       end;
 
+  //writeln(str_time+' '+str_prot+' '+str_srcip+':'+inttostr(src_port)+' '+str_destip+':'+inttostr(dest_port)+' '+str_len + ' Bytes Addr:'+inttostr(addr.Direction));
   writeln(str_time+' '+str_prot+' '+str_srcip+':'+inttostr(src_port)+' '+str_destip+':'+inttostr(dest_port)+' '+str_len + ' Bytes');
+  if cap=true then save_frame(strtoint(str_len ),pipheader,pchar(str_time) );
   if KeyPressed =true then break;
  end;
 
 done:
+if cap=true then close_cap ;
 WinDivertClose (h);
 
 end;
@@ -97,9 +142,11 @@ begin
   if paramcount=0 then
      begin
      writeln('netdump 1.0 by erwan2212@gmail.com');
-     writeln('netdump filter [SNIFF:DROP]');
+     writeln('netdump filter [SNIFF:DROP] [CAP]');
      writeln('see https://reqrypt.org/windivert-doc.html#filter_language for filter syntax');
      writeln('ex: netdump ip');
+     writeln('ex: netdump tcp.Syn');
+     writeln('ex: netdump (tcp.DstPort==80 or tcp.DstPort==443)');
      exit;
      end;
   if paramcount=1 then
@@ -107,13 +154,15 @@ begin
      capture(paramstr(1));
      exit;
      end;
-  if (paramcount=2) and (pos('SNIFF',uppercase(cmdline))>0) then
+  if (paramcount>=2) and (pos('SNIFF',uppercase(cmdline))>0) then
      begin
+     if pos('CAP',uppercase(cmdline))>0 then cap:=true;
      capture(paramstr(1),1);
      exit;
      end;
-  if (paramcount=2) and (pos('DROP',uppercase(cmdline))>0) then
+  if (paramcount>=2) and (pos('DROP',uppercase(cmdline))>0) then
      begin
+     if pos('CAP',uppercase(cmdline))>0 then writeln('you wont be capturing anything in DROP mode');
      capture(paramstr(1),2);
      exit;
      end;
