@@ -11,6 +11,7 @@ uses  uwindivert in '..\uwindivert.pas',
 
 var
   ports:array[0..65535] of longword;
+  local:boolean=false;
 
 
 procedure capture(original_port,new_port,new_ip:string);
@@ -35,8 +36,9 @@ priority:=0;
 getmem(filter,210);
 //https://reqrypt.org/windivert-doc.html#filter_language
 //if rogue server is local, return traffic direction could be seen as OUTBOUND
-filter:=pchar('((outbound and tcp.DstPort == '+original_port+') or (inbound and tcp.SrcPort == '+new_port+'))') ;
-//filter:=pchar('tcp.DstPort == '+original_port+' or tcp.SrcPort == '+new_port) ;
+if local=false
+   then filter:=pchar('((outbound and tcp.DstPort == '+original_port+') or (inbound and tcp.SrcPort == '+new_port+'))')
+   else filter:=pchar('tcp.DstPort == '+original_port+' or tcp.SrcPort == '+new_port) ;
 writeln('filter=' + strpas(filter));
 //flag 0 or WINDIVERT_FLAG_SNIFF (1) or WINDIVERT_FLAG_DROP (2)
 h := WinDivertOpen(filter, WINDIVERT_LAYER_NETWORK, priority, 0);
@@ -133,7 +135,7 @@ while 1=1 do
 
       //when traffic from transparent proxy server to client
       //if rogue server is local, return traffic direction could be seen as OUTBOUND - if so, comment out the inbound condition below
-      if (src_port =strtoint(new_port )) and (isByteOn(addr.Direction,0)=true) //inbound
+      if (src_port =strtoint(new_port )) and ((local=true) or (isByteOn(addr.Direction,0)=true)) //inbound
                    and (ports[PTCP_Header(@pipheader^.data)^.dst_portno]<>0) then
       begin
       //we need to change that src port to original_port
@@ -151,7 +153,11 @@ while 1=1 do
       if WinDivertSend (h,@packet[0],packet_len ,@addr,@written)=false
          then writeln('WinDivertSend failed,'+inttostr(getlasterror));
          //else writeln('WinDivertSend sent from '+ansistring(ports[PTCP_Header(@pipheader^.data)^.dst_portno])+':'+original_port+','+inttostr(written)+ ' bytes');
-      end;
+      end;                                       if pos('local',lowercase(cmdline))>0 then
+        begin
+        local:=true;
+        writeln('mode local');
+        end;
 
 
   writeln(str_time+' '+str_prot+' '+str_srcip+':'+inttostr(src_port)+' '+str_destip+':'+inttostr(dest_port)+' '+str_len + ' Bytes');
@@ -172,6 +178,12 @@ begin
      writeln('proxy-tcp original_port new_port new_ip');
      writeln('remember that if you divert to a local app, this local app could be diverted as well.');
      exit;
+     end;
+
+  if pos('local',lowercase(cmdline))>0 then
+     begin
+     local:=true;
+     writeln('mode local');
      end;
 
      capture(paramstr(1),paramstr(2),paramstr(3));

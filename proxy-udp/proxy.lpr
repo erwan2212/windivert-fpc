@@ -11,6 +11,7 @@ uses  uwindivert in '..\uwindivert.pas',
 
 var
   ports:array[0..65535] of longword;
+  local:boolean=false;
 
 
 procedure capture(original_port,new_port,new_ip:string);
@@ -35,8 +36,9 @@ priority:=0;
 getmem(filter,210);
 //https://reqrypt.org/windivert-doc.html#filter_language
 //if rogue server is local, return traffic direction could be seen as OUTBOUND
-filter:=pchar('((outbound and udp.DstPort == '+original_port+') or (inbound and udp.SrcPort == '+new_port+'))') ;
-//filter:=pchar('udp.DstPort == '+original_port+' or udp.SrcPort == '+new_port) ;
+if local=false
+  then filter:=pchar('((outbound and udp.DstPort == '+original_port+') or (inbound and udp.SrcPort == '+new_port+'))')
+  else filter:=pchar('udp.DstPort == '+original_port+' or udp.SrcPort == '+new_port) ;
 writeln('filter=' + strpas(filter));
 //flag 0 or WINDIVERT_FLAG_SNIFF (1) or WINDIVERT_FLAG_DROP (2)
 h := WinDivertOpen(filter, WINDIVERT_LAYER_NETWORK, priority, 0);
@@ -131,8 +133,8 @@ while 1=1 do
       end;
 
       //when traffic from transparent proxy server to client
-      //if rogue server is local, direction could be seen as OUTBOUND
-      if (src_port =strtoint(new_port )) and (isByteOn(addr.Direction,0)=true) // WINDIVERT_DIRECTION_INBOUND
+      //if rogue server is local, direction could be seen as OUTBOUND (not INBOUND as expected)
+      if (src_port =strtoint(new_port )) and ((local=true) or (isByteOn(addr.Direction,0)=true)) // WINDIVERT_DIRECTION_INBOUND
                    and (ports[Pudp_Header(@pipheader^.data)^.dst_portno]<>0) then
       begin
       //we need to change that src port to original_port
@@ -165,13 +167,19 @@ end;
 begin
   //rather than  KeyPressed, we could have used getmessage/GetAsyncKeyState
 
-  if (paramcount=0) or (paramcount<>3) then
+  if (paramcount=0) or (paramcount<3) then
      begin
      writeln('proxy-udp 1.0 by erwan2212@gmail.com');
-     writeln('proxy-udp original_port new_port new_ip');
+     writeln('proxy-udp original_port new_port new_ip [local]');
      writeln('remember that if you divert to a local app, this local app could be diverted as well.');
      exit;
      end;
+
+     if pos('local',lowercase(cmdline))>0 then
+        begin
+        local:=true;
+        writeln('mode local');
+        end;
 
      capture(paramstr(1),paramstr(2),paramstr(3));
 end.
