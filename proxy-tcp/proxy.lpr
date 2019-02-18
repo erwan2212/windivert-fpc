@@ -175,7 +175,7 @@ begin
   if (paramcount=0) or (paramcount<>3) then
      begin
      writeln('proxy-tcp 1.0 by erwan2212@gmail.com');
-     writeln('proxy-tcp original_port new_port new_ip');
+     writeln('proxy-tcp original_port new_port new_ip [local]');
      writeln('remember that if you divert to a local app, this local app could be diverted as well.');
      exit;
      end;
