@@ -9,8 +9,8 @@
         <Filename Value="netdump.lpr"/>
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="96"/>
-        <CursorPos Y="111"/>
+        <TopLine Value="105"/>
+        <CursorPos X="44" Y="124"/>
         <UsageCount Value="29"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
