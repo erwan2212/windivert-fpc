@@ -145,7 +145,7 @@ begin
   if paramcount=0 then
      begin
      writeln('netdump 1.0 by erwan2212@gmail.com');
-     writeln('netdump filter [SNIFF:DROP] [CAP]');
+     writeln('netdump filter [SNIFF] [CAP]');
      writeln('see https://reqrypt.org/windivert-doc.html#filter_language for filter syntax');
      writeln('ex: netdump ip');
      writeln('ex: netdump tcp.Syn');
@@ -161,13 +161,7 @@ begin
   if (paramcount>=2) and (pos('SNIFF',uppercase(cmdline))>0) then
      begin
      if pos('CAP',uppercase(cmdline))>0 then cap:=true;
-     capture(paramstr(1),1);
-     exit;
-     end;
-  if (paramcount>=2) and (pos('DROP',uppercase(cmdline))>0) then
-     begin
-     if pos('CAP',uppercase(cmdline))>0 then writeln('you wont be capturing anything in DROP mode');
-     capture(paramstr(1),2);
+     capture(paramstr(1),WINDIVERT_FLAG_SNIFF);
      exit;
      end;
 end.
