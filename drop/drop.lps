@@ -10,8 +10,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="netdump"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="80"/>
-        <CursorPos Y="96"/>
+        <TopLine Value="30"/>
+        <CursorPos X="64" Y="52"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
@@ -20,6 +20,7 @@
         <Filename Value="uconsole.pas"/>
         <IsPartOfProject Value="True"/>
         <UsageCount Value="20"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
       <Unit2>
         <Filename Value="..\uwindivert.pas"/>
@@ -35,6 +36,7 @@
         <Filename Value="..\ipheader.pas"/>
         <IsPartOfProject Value="True"/>
         <UsageCount Value="20"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
     </Units>
     <JumpHistory Count="3" HistoryIndex="2">
