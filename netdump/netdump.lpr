@@ -150,6 +150,7 @@ begin
      writeln('ex: netdump ip');
      writeln('ex: netdump tcp.Syn');
      writeln('ex: netdump "(tcp.DstPort==80 or tcp.DstPort==443)"');
+     writeln('ex: netdump "ip.DstAddr>=192.168.1.0 and ip.DstAddr<=192.168.1.255"');
      exit;
      end;
   if paramcount=1 then
