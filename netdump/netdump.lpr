@@ -9,9 +9,12 @@ uses  uwindivert in '..\uwindivert.pas',
   ipheader in '..\ipheader.pas',
   windows,sysutils,winsock, uconsole,pcaptools;
 
+//function EnableRouter(var pHandle: THandle; pOverlapped: POVERLAPPED): DWORD; stdcall;external 'iphlpapi.dll';
+
 var
   cap:boolean=false;
   fromf:file;
+  h:thandle;
 
 procedure open_cap;
 const DLT_EN10MB      =1;
@@ -50,7 +53,7 @@ begin
 
 end;
 
-procedure capture(param_:string;const flag:uint64=1);
+procedure capture(param_:string;const layer:WINDIVERT_LAYER=WINDIVERT_LAYER_NETWORK; const flag:uint64=1);
 var
 h:thandle;
 filter:pchar;
@@ -67,13 +70,14 @@ label done;
 begin
 priority:=0;
 getmem(filter,210);
+if param_<>'' then filter:=pchar(param_) else filter:='ip';
 writeln('filter=' + param_);
 writeln('flag=' + inttostr(flag));
+if layer=WINDIVERT_LAYER_NETWORK then writeln('layer=LAYER_NETWORK') else writeln('layer=LAYER_NETWORK_FORWARD');
 //https://reqrypt.org/windivert-doc.html#filter_language
 //filter:='outbound and tcp.SrcPort == 80'+#0;
-if param_<>'' then filter:=pchar(param_) else filter:='ip';
 //0 or WINDIVERT_FLAG_SNIFF or WINDIVERT_FLAG_DROP
-h := WinDivertOpen(filter, WINDIVERT_LAYER_NETWORK, priority, flag);
+h := WinDivertOpen(filter, layer, priority, flag);
 if (h = INVALID_HANDLE_VALUE) then
   begin
   writeln('invalid handle,'+inttostr(getlasterror));
@@ -106,7 +110,8 @@ while 1=1 do
   str_time:=FormatDateTime('hh:nn:ss:zzz', now);
   str_srcip:=strpas(Inet_Ntoa(TInAddr(pipheader^.ip_srcaddr)));
   str_destip:=strpas(Inet_Ntoa(TInAddr(pipheader^.ip_destaddr)));
-  //if addr.Direction=WINDIVERT_DIRECTION_OUTBOUND then str_dir:='OUTBOUND' else str_dir:='INBOUND';
+  src_port:=0;
+  dest_port:=0;
 
   if isByteOn(addr.Direction,0)=true then str_dir:='INBOUND';
   if isByteOn(addr.Direction,0)=false then str_dir:='OUTBOUND';
@@ -141,11 +146,11 @@ end;
 
 begin
    //rather than  KeyPressed, we could have used getmessage/GetAsyncKeyState
-  //writeln(cmdline);
+
   if paramcount=0 then
      begin
      writeln('netdump 1.0 by erwan2212@gmail.com');
-     writeln('netdump filter [SNIFF] [CAP]');
+     writeln('netdump filter [CAP]');
      writeln('see https://reqrypt.org/windivert-doc.html#filter_language for filter syntax');
      writeln('ex: netdump ip');
      writeln('ex: netdump tcp.Syn');
@@ -155,13 +160,13 @@ begin
      end;
   if paramcount=1 then
      begin
-     capture(paramstr(1));
+     capture(paramstr(1),WINDIVERT_LAYER_NETWORK,WINDIVERT_FLAG_SNIFF);
      exit;
      end;
-  if (paramcount>=2) and (pos('SNIFF',uppercase(cmdline))>0) then
+  if (paramcount=2) and (pos('CAP',uppercase(cmdline))>0) then
      begin
-     if pos('CAP',uppercase(cmdline))>0 then cap:=true;
-     capture(paramstr(1),WINDIVERT_FLAG_SNIFF);
+     cap:=true;
+     capture(paramstr(1),WINDIVERT_LAYER_NETWORK,WINDIVERT_FLAG_SNIFF);
      exit;
      end;
 end.
