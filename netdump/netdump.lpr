@@ -7,7 +7,7 @@ program netdump;
 
 uses  uwindivert in '..\uwindivert.pas',
   ipheader in '..\ipheader.pas',
-  windows,sysutils,winsock, uconsole,pcaptools;
+  windows,dos,sysutils,winsock, uconsole,pcaptools;
 
 //function EnableRouter(var pHandle: THandle; pOverlapped: POVERLAPPED): DWORD; stdcall;external 'iphlpapi.dll';
 
@@ -146,7 +146,6 @@ end;
 
 begin
    //rather than  KeyPressed, we could have used getmessage/GetAsyncKeyState
-
   if paramcount=0 then
      begin
      writeln('netdump 1.0 by erwan2212@gmail.com');
@@ -160,13 +159,17 @@ begin
      end;
   if paramcount=1 then
      begin
-     capture(paramstr(1),WINDIVERT_LAYER_NETWORK,WINDIVERT_FLAG_SNIFF);
+     if uppercase(GetEnv('layer'))='FORWARD'
+        then capture(paramstr(1),WINDIVERT_LAYER_NETWORK_FORWARD,WINDIVERT_FLAG_SNIFF)
+        else capture(paramstr(1),WINDIVERT_LAYER_NETWORK,WINDIVERT_FLAG_SNIFF);
      exit;
      end;
   if (paramcount=2) and (pos('CAP',uppercase(cmdline))>0) then
      begin
      cap:=true;
-     capture(paramstr(1),WINDIVERT_LAYER_NETWORK,WINDIVERT_FLAG_SNIFF);
+     if uppercase(GetEnv('layer'))='FORWARD'
+        then capture(paramstr(1),WINDIVERT_LAYER_NETWORK_FORWARD,WINDIVERT_FLAG_SNIFF)
+        else capture(paramstr(1),WINDIVERT_LAYER_NETWORK,WINDIVERT_FLAG_SNIFF);
      exit;
      end;
 end.

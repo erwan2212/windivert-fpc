@@ -7,7 +7,7 @@ program proxy;
 
 uses  uwindivert in '..\uwindivert.pas',
   ipheader in '..\ipheader.pas',
-  windows,sysutils,winsock, uconsole;
+  windows,dos,sysutils,winsock, uconsole;
 
 var
   ports:array[0..65535] of longword;
@@ -40,8 +40,9 @@ if local=false
   then filter:=pchar('((outbound and udp.DstPort == '+original_port+') or (inbound and udp.SrcPort == '+new_port+'))')
   else filter:=pchar('udp.DstPort == '+original_port+' or udp.SrcPort == '+new_port) ;
 writeln('filter=' + strpas(filter));
-//flag 0 or WINDIVERT_FLAG_SNIFF (1) or WINDIVERT_FLAG_DROP (2)
-h := WinDivertOpen(filter, WINDIVERT_LAYER_NETWORK, priority, 0);
+{if uppercase(GetEnv('layer'))='FORWARD'
+   then h := WinDivertOpen(filter, WINDIVERT_LAYER_NETWORK_FORWARD, priority, 0)
+   else} h := WinDivertOpen(filter, WINDIVERT_LAYER_NETWORK, priority, 0);
 if (h = INVALID_HANDLE_VALUE) then
   begin
   writeln('invalid handle,'+inttostr(getlasterror));
