@@ -40,9 +40,7 @@ if local=false
   then filter:=pchar('((outbound and udp.DstPort == '+original_port+') or (inbound and udp.SrcPort == '+new_port+'))')
   else filter:=pchar('udp.DstPort == '+original_port+' or udp.SrcPort == '+new_port) ;
 writeln('filter=' + strpas(filter));
-{if uppercase(GetEnv('layer'))='FORWARD'
-   then h := WinDivertOpen(filter, WINDIVERT_LAYER_NETWORK_FORWARD, priority, 0)
-   else} h := WinDivertOpen(filter, WINDIVERT_LAYER_NETWORK, priority, 0);
+h := WinDivertOpen(filter, WINDIVERT_LAYER_NETWORK, priority, 0);
 if (h = INVALID_HANDLE_VALUE) then
   begin
   writeln('invalid handle,'+inttostr(getlasterror));
@@ -110,8 +108,6 @@ while 1=1 do
       end;
 
       //when traffic from client to transparent proxy server
-      //Make sure that Privoxy's own requests aren't redirected as well, if running local
-      //accept-intercepted-requests=1 in privoxy
       if (dest_port =strtoint(original_port)) and  (isByteOn(addr.Direction,0)=false) then  // WINDIVERT_DIRECTION_OUTBOUND
       begin
       //we need to change that dst port to new_port ...
