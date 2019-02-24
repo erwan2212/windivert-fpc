@@ -1,0 +1,93 @@
+object frmmain: Tfrmmain
+  Left = 493
+  Height = 530
+  Top = 240
+  Width = 580
+  Caption = 'Netdump GUI 1.0 by Erwan2212@gmail.com'
+  ClientHeight = 530
+  ClientWidth = 580
+  OnCreate = FormCreate
+  OnShow = FormShow
+  LCLVersion = '1.8.2.0'
+  object ListView1: TListView
+    Left = 0
+    Height = 450
+    Top = 80
+    Width = 580
+    Align = alClient
+    Columns = <    
+      item
+        Caption = 'Timestamp'
+        Width = 100
+      end    
+      item
+        Caption = 'Prot.'
+      end    
+      item
+        Caption = 'Source'
+        Width = 150
+      end    
+      item
+        Caption = 'Destination'
+        Width = 150
+      end    
+      item
+        Caption = 'Length'
+        Width = 100
+      end>
+    GridLines = True
+    ReadOnly = True
+    RowSelect = True
+    TabOrder = 0
+    ViewStyle = vsReport
+  end
+  object GroupBox1: TGroupBox
+    Left = 0
+    Height = 80
+    Top = 0
+    Width = 580
+    Align = alTop
+    ClientHeight = 60
+    ClientWidth = 576
+    TabOrder = 1
+    object btnstart: TButton
+      Left = 104
+      Height = 25
+      Top = 0
+      Width = 155
+      Caption = 'Start'
+      OnClick = btnstartClick
+      TabOrder = 0
+    end
+    object btnstop: TButton
+      Left = 272
+      Height = 25
+      Top = 0
+      Width = 155
+      Caption = 'Stop'
+      Enabled = False
+      OnClick = btnstopClick
+      TabOrder = 1
+    end
+    object cmbfilter: TComboBox
+      Left = 0
+      Height = 23
+      Top = 32
+      Width = 576
+      ItemHeight = 15
+      ItemIndex = 0
+      Items.Strings = (
+        'ip'
+        'tcp'
+        'udp'
+        'icmp'
+        'outbound and tcp.DstPort == 80'
+        'outbound and udp.DstPort == 53'
+        'tcp.Syn'
+        'outbound and ip.DstAddr == 8.8.8.8'
+      )
+      TabOrder = 2
+      Text = 'ip'
+    end
+  end
+end
