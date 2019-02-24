@@ -35,7 +35,9 @@ object frmmain: Tfrmmain
         Caption = 'Length'
         Width = 100
       end>
+    Font.Height = -13
     GridLines = True
+    ParentFont = False
     ReadOnly = True
     RowSelect = True
     TabOrder = 0
