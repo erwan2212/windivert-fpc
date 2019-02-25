@@ -9,8 +9,8 @@
         <Filename Value="proxy.lpr"/>
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="153"/>
-        <CursorPos X="76" Y="163"/>
+        <TopLine Value="152"/>
+        <CursorPos X="79" Y="173"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
