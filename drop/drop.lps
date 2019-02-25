@@ -11,7 +11,7 @@
         <UnitName Value="netdump"/>
         <IsVisibleTab Value="True"/>
         <TopLine Value="30"/>
-        <CursorPos X="64" Y="52"/>
+        <CursorPos X="63" Y="47"/>
         <UsageCount Value="20"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
