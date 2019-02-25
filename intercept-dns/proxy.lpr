@@ -219,6 +219,8 @@ WinDivertClose (h);
 
 end;
 
+{$R *.res}
+
 begin
   //rather than  KeyPressed, we could have used getmessage/GetAsyncKeyState
 
