@@ -5,7 +5,8 @@ unit uwindivert;
 interface
 
 uses
-  windows;
+  {$IFDEF IsConsole}uconsole,{$ENDIF}
+  windows,sysutils,winsock,classes,ipheader in '..\ipheader.pas';
 
 {$IFnDEF FPC}
 type
@@ -21,6 +22,7 @@ Int16   = SmallInt;
   UIntPtr = NativeUInt;
   }
 {$ENDIF}
+
 
 type  WINDIVERT_LAYER = (
     WINDIVERT_LAYER_NETWORK = 0,
@@ -118,6 +120,14 @@ const WINDIVERT_DIRECTION_INBOUND:UINT8 = 1; // for inbound packets.
 
 function isByteOn(N: byte; bit_position: integer):boolean;
 
+function capture(param_:pointer):dword;stdcall;
+
+var
+stop:boolean=false;
+layer:WINDIVERT_LAYER=WINDIVERT_LAYER_NETWORK;
+//we could/should define more event like started/stopped/error...
+OnPacket:procedure (str_time,str_prot,str_srcip,src_port,str_destip,dest_port:string;len:integer;data:pointer) ;
+
 implementation
 
 function isByteOn(N: byte; bit_position: integer):boolean;
@@ -148,6 +158,112 @@ function Enable_a_Bit(const aValue: Cardinal; const Bit: Byte; const Flag: Boole
 begin
   Result := (aValue or (1 shl Bit)) xor (Integer(not Flag) shl Bit);
 end;
+
+////////////////////////////////////////////////////
+function capture(param_:pointer):dword;stdcall;
+var
+h:thandle;
+filter:pchar;
+priority:word;
+//packet:pointer;
+packet:array[0..8191] of byte;
+addr:WINDIVERT_ADDRESS;
+packet_len,len:integer;
+i:byte;
+pipheader:PIP_Header;
+src_port,dest_port:word;
+str_dir,str_time,str_prot,str_srcip,str_destip,str_len:string;
+freq,base:int64;
+time_passed:double;
+dt:tdatetime;
+label done;
+begin
+priority:=0;
+getmem(filter,210);
+if param_<>nil then filter:=pchar(param_^) else filter:='ip';
+
+{$IFDEF IsConsole}
+writeln('filter=' + filter);
+if layer=WINDIVERT_LAYER_NETWORK then writeln('layer=LAYER_NETWORK') else writeln('layer=LAYER_NETWORK_FORWARD');
+{$ENDIF}
+
+//https://reqrypt.org/windivert-doc.html#filter_language
+//0 or WINDIVERT_FLAG_SNIFF or WINDIVERT_FLAG_DROP
+h := WinDivertOpen(filter, layer, priority, WINDIVERT_FLAG_SNIFF);
+if (h = INVALID_HANDLE_VALUE) then
+  begin
+  {$i-}raise exception.Create  ('invalid handle,'+inttostr(getlasterror));{$i+}
+  exit;
+  end;
+
+if WinDivertSetParam(h, WINDIVERT_PARAM_QUEUE_LEN, 8192)=false then
+  begin
+  {$i-}raise exception.Create ('WinDivertSetParam1 failed,'+inttostr(getlasterror));{$i+}
+  goto done;
+  end;
+if WinDivertSetParam(h, WINDIVERT_PARAM_QUEUE_TIME, 2048)=false then
+  begin
+  {$i-}raise exception.Create ('WinDivertSetParam2 failed,'+inttostr(getlasterror));{$i+}
+  exit;
+  end;
+
+QueryPerformanceFrequency(freq);
+QueryPerformanceCounter(base); //Retrieves the current value of the performance counter, which is a high resolution (<1us) time stamp
+
+while 1=1 do
+  begin
+  if WinDivertRecv(h, @packet[0], sizeof(packet), @addr, @packet_len)=false then
+  begin
+  {$i-}raise exception.Create ('WinDivertRecv failed,'+inttostr(getlasterror));{$i+}
+  break;
+  end;
+
+  if packet_len >0 then
+  begin
+  pipheader:=@packet[0];
+  len:=ntohs(pipheader^.ip_totallength);
+  str_len:=inttostr(len) ;
+  //str_time:=FormatDateTime('hh:nn:ss:zzz', now); //not ideal, we should use the real timestamp of the packet
+  str_srcip:=strpas(Inet_Ntoa(TInAddr(pipheader^.ip_srcaddr)));
+  str_destip:=strpas(Inet_Ntoa(TInAddr(pipheader^.ip_destaddr)));
+  src_port:=0;
+  dest_port:=0;
+  time_passed := (MSecsPerSec * (addr.Timestamp - base)) /  freq;   //micro secs to milli secs with * MSecsPerSec
+  dt := time_passed / MSecsPerSec  / SecsPerDay; //or time_passed / MSecsPerDay
+  str_time:=FormatDateTime('hh:nn:ss.zzz', Frac(dt)); //Frac returns the non-integer part of X.
+  //for timeval, have a look at https://github.com/curl/curl/blob/master/lib/timeval.c
+
+  if isByteOn(addr.Direction,0)=true then str_dir:='INBOUND';
+  if isByteOn(addr.Direction,0)=false then str_dir:='OUTBOUND';
+
+  For i := 0 To 8 Do
+        If pipheader^.ip_protocol = IPPROTO[i].itype Then str_prot := IPPROTO[i].name;
+
+  //tcp
+      If pipheader^.ip_protocol=6 then
+      begin
+           src_port:=   ntohs(PTCP_Header(@pipheader^.data )^.src_portno ) ;
+           dest_port:= ntohs(PTCP_Header(@pipheader^.data )^.dst_portno )  ;
+      end;
+      //udp
+      If pipheader^.ip_protocol=17 then
+      begin
+           src_port:=   ntohs(PUDP_Header(@pipheader^.data )^.src_portno ) ;
+           dest_port:= ntohs(PUDP_Header(@pipheader^.data )^.dst_portno )  ;
+      end;
+
+  if assigned(OnPacket) then OnPacket(str_time,str_prot,str_srcip,inttostr(src_port),str_destip,inttostr(dest_port),len,pipheader);
+  end;
+  if stop =true then break;
+  {$IFDEF IsConsole}if KeyPressed =true then break;{$ENDIF}
+ end;
+
+done:
+stop:=true;
+WinDivertClose (h);
+
+end;
+
 
 end.
 

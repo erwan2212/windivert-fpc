@@ -1,17 +1,16 @@
 object frmmain: Tfrmmain
   Left = 493
-  Height = 530
-  Top = 240
+  Height = 629
+  Top = 193
   Width = 580
   Caption = 'Netdump GUI 1.0 by Erwan2212@gmail.com'
-  ClientHeight = 530
+  ClientHeight = 629
   ClientWidth = 580
-  OnCreate = FormCreate
   OnShow = FormShow
   LCLVersion = '1.8.2.0'
   object ListView1: TListView
     Left = 0
-    Height = 450
+    Height = 526
     Top = 80
     Width = 580
     Align = alClient
@@ -35,7 +34,9 @@ object frmmain: Tfrmmain
         Caption = 'Length'
         Width = 100
       end>
+    Font.Height = -13
     GridLines = True
+    ParentFont = False
     ReadOnly = True
     RowSelect = True
     TabOrder = 0
@@ -50,30 +51,13 @@ object frmmain: Tfrmmain
     ClientHeight = 60
     ClientWidth = 576
     TabOrder = 1
-    object btnstart: TButton
-      Left = 104
-      Height = 25
-      Top = 0
-      Width = 155
-      Caption = 'Start'
-      OnClick = btnstartClick
-      TabOrder = 0
-    end
-    object btnstop: TButton
-      Left = 272
-      Height = 25
-      Top = 0
-      Width = 155
-      Caption = 'Stop'
-      Enabled = False
-      OnClick = btnstopClick
-      TabOrder = 1
-    end
     object cmbfilter: TComboBox
       Left = 0
       Height = 23
-      Top = 32
+      Top = 40
       Width = 576
+      Align = alCustom
+      Anchors = [akLeft, akRight]
       ItemHeight = 15
       ItemIndex = 0
       Items.Strings = (
@@ -84,10 +68,49 @@ object frmmain: Tfrmmain
         'outbound and tcp.DstPort == 80'
         'outbound and udp.DstPort == 53'
         'tcp.Syn'
+        'outbound and tcp.Syn'
+        'inbound and tcp.Syn'
         'outbound and ip.DstAddr == 8.8.8.8'
       )
-      TabOrder = 2
+      TabOrder = 0
       Text = 'ip'
     end
+    object GroupBox2: TGroupBox
+      Left = 0
+      Height = 40
+      Top = 0
+      Width = 576
+      Align = alTop
+      ClientHeight = 20
+      ClientWidth = 572
+      TabOrder = 1
+      OnClick = GroupBox2Click
+      object btnstart: TButton
+        Left = 56
+        Height = 25
+        Top = -8
+        Width = 200
+        Caption = 'Start'
+        OnClick = btnstartClick
+        TabOrder = 0
+      end
+      object btnstop: TButton
+        Left = 288
+        Height = 25
+        Top = -8
+        Width = 200
+        Caption = 'Stop'
+        Enabled = False
+        OnClick = btnstopClick
+        TabOrder = 1
+      end
+    end
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Height = 23
+    Top = 606
+    Width = 580
+    Panels = <>
   end
 end

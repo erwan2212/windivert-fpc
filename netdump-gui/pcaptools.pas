@@ -66,6 +66,7 @@ Ptcpdump_file_header(@file_header)^.linktype:=linktype;
 if ioresult<>0 then raise exception.Create('write_cap_header : cannot write to file ('+inttostr(ioresult)+')');
 end;
 
+//we are not handling micro secs for now, only milli secs...
 //procedure tfrmmain.write_cap_packet(var fromf:file;len:integer;stime:string;buf:tpacketbuffer);
 procedure write_cap_packet(var fromf:file;len:integer;stime:string;buf:pchar);
 var
@@ -88,8 +89,8 @@ if stime='' then stime:='00:00:00 000';
 s:=copy(stime,1,8);
 dt:=dt+StrToTime(s);    //dd/mm/yy hh:mm:ss
 tv.tv_sec :=DateTimeToUnixTime(dt);
-s:=copy(stime,10,3);
-tv.tv_usec :=strtoint(s)*1000;
+s:=copy(stime,10,3); //milli sec part, microsec would be 6 digits
+tv.tv_usec :=strtoint(s)*1000; //micro sec part will be rounded to 000
 Ptcpdump_packet(@packet_header)^.timeval:=tv;
 {$i-}Blockwrite(fromf,packet_header,sizeof(tcpdump_packet),numw);{$i+}
 if ioresult<>0 then raise exception.Create('write_cap_packet : cannot write to file ('+inttostr(ioresult)+')');

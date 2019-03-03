@@ -14,9 +14,6 @@
       </XPManifest>
       <Icon Value="0"/>
     </General>
-    <VersionInfo>
-      <StringTable ProductVersion=""/>
-    </VersionInfo>
     <BuildModes Count="3">
       <Item1 Name="Default" Default="True"/>
       <Item2 Name="Debug">
@@ -122,6 +119,7 @@
         <Filename Value="ufrmmain.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmmain"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit1>
     </Units>

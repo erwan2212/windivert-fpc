@@ -10,6 +10,17 @@ function KeyPressed:Boolean;
 
 implementation
 
+{
+function IAmAConsoleApp: Boolean;
+var
+  Stdout: THandle;
+begin
+  Stdout := GetStdHandle(Std_Output_Handle);
+  Win32Check(Stdout <> Invalid_Handle_Value);
+  Result := Stdout <> 0;
+end;
+}
+
 function KeyPressed:Boolean;
 var
   lpNumberOfEvents     : DWORD;
