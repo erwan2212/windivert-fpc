@@ -16,6 +16,7 @@ type
    Tfrmmain = class(TForm)
     btnstart: TButton;
     btnstop: TButton;
+    chkcap: TCheckBox;
     cmbfilter: TComboBox;
     GroupBox1: TGroupBox;
     GroupBox2: TGroupBox;
@@ -148,7 +149,7 @@ begin
   ListView1.Clear ;;
   StatusBar1.SimpleText :='';
   stop:=false;
-  cap:=true;
+  cap:=chkcap.Checked ;
   _filter :=cmbfilter.Text;
   //
   if cap=true then open_cap;

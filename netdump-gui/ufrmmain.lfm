@@ -2,39 +2,40 @@ object frmmain: Tfrmmain
   Left = 493
   Height = 629
   Top = 193
-  Width = 580
+  Width = 693
   Caption = 'Netdump GUI 1.0 by Erwan2212@gmail.com'
   ClientHeight = 629
-  ClientWidth = 580
+  ClientWidth = 693
   OnShow = FormShow
   LCLVersion = '1.8.2.0'
   object ListView1: TListView
     Left = 0
     Height = 526
     Top = 80
-    Width = 580
+    Width = 693
     Align = alClient
     Columns = <    
       item
         Caption = 'Timestamp'
-        Width = 100
+        Width = 125
       end    
       item
         Caption = 'Prot.'
+        Width = 75
       end    
       item
         Caption = 'Source'
-        Width = 150
+        Width = 175
       end    
       item
         Caption = 'Destination'
-        Width = 150
+        Width = 175
       end    
       item
         Caption = 'Length'
-        Width = 100
+        Width = 125
       end>
-    Font.Height = -13
+    Font.Height = -16
     GridLines = True
     ParentFont = False
     ReadOnly = True
@@ -46,16 +47,16 @@ object frmmain: Tfrmmain
     Left = 0
     Height = 80
     Top = 0
-    Width = 580
+    Width = 693
     Align = alTop
     ClientHeight = 60
-    ClientWidth = 576
+    ClientWidth = 689
     TabOrder = 1
     object cmbfilter: TComboBox
       Left = 0
       Height = 23
       Top = 40
-      Width = 576
+      Width = 689
       Align = alCustom
       Anchors = [akLeft, akRight]
       ItemHeight = 15
@@ -79,10 +80,10 @@ object frmmain: Tfrmmain
       Left = 0
       Height = 40
       Top = 0
-      Width = 576
+      Width = 689
       Align = alTop
       ClientHeight = 20
-      ClientWidth = 572
+      ClientWidth = 685
       TabOrder = 1
       OnClick = GroupBox2Click
       object btnstart: TButton
@@ -104,13 +105,23 @@ object frmmain: Tfrmmain
         OnClick = btnstopClick
         TabOrder = 1
       end
+      object chkcap: TCheckBox
+        Left = 512
+        Height = 19
+        Top = -8
+        Width = 93
+        Caption = 'capture to file'
+        Checked = True
+        State = cbChecked
+        TabOrder = 2
+      end
     end
   end
   object StatusBar1: TStatusBar
     Left = 0
     Height = 23
     Top = 606
-    Width = 580
+    Width = 693
     Panels = <>
   end
 end
