@@ -186,7 +186,7 @@ begin
      begin
      writeln('proxy-tcp 1.0 by erwan2212@gmail.com');
      writeln('intercept outbound tcp packets');
-     writeln('proxy-tcp original_port new_port new_ip [local]');
+     writeln('proxy-tcp original_port new_port new_ip [local] [verbose]');
      writeln('remember that if you divert to a local app, this local app could be diverted as well.');
      exit;
      end;
