@@ -126,7 +126,7 @@ var
 stop:boolean=false;
 layer:WINDIVERT_LAYER=WINDIVERT_LAYER_NETWORK;
 //we could/should define more event like started/stopped/error...
-OnPacket:procedure (str_time,str_prot,str_srcip,src_port,str_destip,dest_port:string;len:integer;data:pointer) ;
+OnPacket:procedure (str_time,str_prot,str_srcip,src_port,str_destip,dest_port:string;len:integer;data:pointer;str_dir:string='') ;
 
 implementation
 
@@ -252,7 +252,7 @@ while 1=1 do
            dest_port:= ntohs(PUDP_Header(@pipheader^.data )^.dst_portno )  ;
       end;
 
-  if assigned(OnPacket) then OnPacket(str_time,str_prot,str_srcip,inttostr(src_port),str_destip,inttostr(dest_port),len,pipheader);
+  if assigned(OnPacket) then OnPacket(str_time,str_prot,str_srcip,inttostr(src_port),str_destip,inttostr(dest_port),len,pipheader,str_dir);
   end;
   if stop =true then break;
   {$IFDEF IsConsole}if KeyPressed =true then break;{$ENDIF}
