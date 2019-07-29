@@ -54,10 +54,10 @@ end;
 
 {$R *.res}
 
-procedure OnPacket2(str_time,str_prot,str_srcip,src_port,str_destip,dest_port:string;len:integer;data:pointer);
+procedure OnPacket2(str_time,str_prot,str_srcip,src_port,str_destip,dest_port:string;len:integer;data:pointer;str_dir:string='');
 begin
 
-writeln(str_time+' '+str_prot+' '+str_srcip+':'+src_port+' '+str_destip+':'+dest_port+' '+inttostr(len) + ' Bytes');
+writeln(str_time+' '+str_prot+' '+str_srcip+':'+src_port+' '+str_destip+':'+dest_port+' '+inttostr(len) + ' Bytes'+ ' '+str_dir);
 
 if (cap=true) and (stop=false) then save_frame(len,data,pchar(str_time) ); //checking stop should not be necessary...
 end;

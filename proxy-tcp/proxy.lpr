@@ -12,6 +12,7 @@ uses  uwindivert in '..\uwindivert.pas',
 var
   ports:array[0..65535] of longword;
   local:boolean=false;
+  verbose:boolean=false;
 
 
 procedure capture(original_port,new_port,new_ip:string);
@@ -115,7 +116,11 @@ while 1=1 do
       if (dest_port =strtoint(original_port)) and  (isByteOn(addr.Direction,0)=false) then //outbound
       begin
       //we need to change that dst port to new_port ...
+      if verbose then
+      begin
       writeln('client to remote');
+      writeln('original remote ip='+str_destip );
+      end;
       //the below is to associate a remote ip to a local dynamic port
       //a bit rough but works for now...
       //addr.Direction :=1;
@@ -140,8 +145,11 @@ while 1=1 do
       begin
       //we need to change that src port to original_port
       //addr.Direction :=0 ;
+      if verbose then
+      begin
       writeln('remote to client');
-      writeln('original ip='+strpas(Inet_Ntoa(TInAddr(ports[PTCP_Header(@pipheader^.data)^.dst_portno]))));
+      writeln('original remote ip='+strpas(Inet_Ntoa(TInAddr(ports[PTCP_Header(@pipheader^.data)^.dst_portno]))));
+      end;
       pipheader^.ip_srcaddr:=ports[PTCP_Header(@pipheader^.data)^.dst_portno] ;
       PTCP_Header(@pipheader^.data)^.src_portno:=htons(strtoint(original_port));
       {
@@ -160,7 +168,7 @@ while 1=1 do
         end;
 
 
-  writeln(str_time+' '+str_prot+' '+str_srcip+':'+inttostr(src_port)+' '+str_destip+':'+inttostr(dest_port)+' '+str_len + ' Bytes');
+  if verbose then writeln(str_time+' '+str_prot+' '+str_srcip+':'+inttostr(src_port)+' '+str_destip+':'+inttostr(dest_port)+' '+str_len + ' Bytes');
   if KeyPressed =true then break;
  end;
 
@@ -177,7 +185,8 @@ begin
   if (paramcount=0) or (paramcount<>3) then
      begin
      writeln('proxy-tcp 1.0 by erwan2212@gmail.com');
-     writeln('proxy-tcp original_port new_port new_ip [local]');
+     writeln('intercept outbound tcp packets');
+     writeln('proxy-tcp original_port new_port new_ip [local] [verbose]');
      writeln('remember that if you divert to a local app, this local app could be diverted as well.');
      exit;
      end;
@@ -186,6 +195,11 @@ begin
      begin
      local:=true;
      writeln('mode local');
+     end;
+  if pos('verbose',lowercase(cmdline))>0 then
+     begin
+     verbose:=true;
+     writeln('mode verbose');
      end;
 
      capture(paramstr(1),paramstr(2),paramstr(3));
