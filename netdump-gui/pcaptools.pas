@@ -5,12 +5,15 @@ interface
 uses windows,sysutils;
 
  procedure write_cap_packet(var fromf:file;len:integer;stime:string;buf:pchar);
-  procedure write_cap_header(var fromf:file;const linktype:dword=1);
+ procedure write_cap_header(var fromf:file;const linktype:dword=1);
 
-implementation
+ function UnixTimeToDateTime(const Value: DWord): TDateTime;
+ function DateTimeToUnixTime(const Value: TDateTime): DWord;
 
 const
 UnixTimeStart = 25569;
+
+const DLT_EN10MB      =1;
 
 type tpacketbuffer=array[0..8192-1] of char;
 
@@ -37,6 +40,8 @@ tcpdump_packet=record
   caplen       : dword;  //4 bytes
   len:dword;             //4 bytes
   end;
+
+implementation
 
 function UnixTimeToDateTime(const Value: DWord): TDateTime;
 begin
@@ -98,5 +103,7 @@ if ioresult<>0 then raise exception.Create('write_cap_packet : cannot write to f
 copymemory(@local_buf[0],@buf[0],len);
 {$i-}Blockwrite(fromf,local_buf,len,numw);{$i+}
 end;
+
+
 
 end.

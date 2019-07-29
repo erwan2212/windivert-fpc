@@ -2,19 +2,23 @@ object frmmain: Tfrmmain
   Left = 493
   Height = 629
   Top = 193
-  Width = 693
+  Width = 748
   Caption = 'Netdump GUI 1.0 by Erwan2212@gmail.com'
-  ClientHeight = 629
-  ClientWidth = 693
+  ClientHeight = 609
+  ClientWidth = 748
+  Menu = MainMenu1
   OnShow = FormShow
   LCLVersion = '1.8.2.0'
   object ListView1: TListView
     Left = 0
-    Height = 526
+    Height = 506
     Top = 80
-    Width = 693
+    Width = 748
     Align = alClient
     Columns = <    
+      item
+        Caption = 'No.'
+      end    
       item
         Caption = 'Timestamp'
         Width = 125
@@ -42,21 +46,22 @@ object frmmain: Tfrmmain
     RowSelect = True
     TabOrder = 0
     ViewStyle = vsReport
+    OnDblClick = ListView1DblClick
   end
   object GroupBox1: TGroupBox
     Left = 0
     Height = 80
     Top = 0
-    Width = 693
+    Width = 748
     Align = alTop
     ClientHeight = 60
-    ClientWidth = 689
+    ClientWidth = 744
     TabOrder = 1
     object cmbfilter: TComboBox
       Left = 0
       Height = 23
       Top = 40
-      Width = 689
+      Width = 744
       Align = alCustom
       Anchors = [akLeft, akRight]
       ItemHeight = 15
@@ -80,10 +85,10 @@ object frmmain: Tfrmmain
       Left = 0
       Height = 40
       Top = 0
-      Width = 689
+      Width = 744
       Align = alTop
       ClientHeight = 20
-      ClientWidth = 685
+      ClientWidth = 740
       TabOrder = 1
       OnClick = GroupBox2Click
       object btnstart: TButton
@@ -120,8 +125,39 @@ object frmmain: Tfrmmain
   object StatusBar1: TStatusBar
     Left = 0
     Height = 23
-    Top = 606
-    Width = 693
+    Top = 586
+    Width = 748
     Panels = <>
+  end
+  object MainMenu1: TMainMenu
+    left = 10
+    top = 10
+    object MenuItem1: TMenuItem
+      Caption = 'FIle'
+      object MenuItem3: TMenuItem
+        Caption = 'Load CAP file'
+        OnClick = MenuItem3Click
+      end
+      object MenuItem2: TMenuItem
+        Caption = 'Exit'
+        OnClick = MenuItem2Click
+      end
+    end
+    object MenuItem4: TMenuItem
+      Caption = 'Edit'
+      object MenuItem6: TMenuItem
+        Caption = 'Clear'
+        OnClick = MenuItem6Click
+      end
+      object MenuItem5: TMenuItem
+        Caption = 'Copy line'
+        OnClick = MenuItem5Click
+      end
+    end
+  end
+  object OpenDialog1: TOpenDialog
+    Filter = 'wiresharp cap file|*.cap'
+    left = 39
+    top = 10
   end
 end
