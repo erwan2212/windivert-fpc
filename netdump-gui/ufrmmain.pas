@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Grids,
   ComCtrls, StdCtrls, Menus, windows, clipbrd, winsock,  pcaptools,
-  uwindivert in '..\uwindivert.pas',ipheader in '..\ipheader.pas', ATBinHex;
+  uwindivert in '..\uwindivert.pas',ipheader in '..\ipheader.pas';
 
 //type OnPacket=procedure (str_time,str_prot,str_srcip,src_port,str_destip,dest_port,str_len:string) of object;
 

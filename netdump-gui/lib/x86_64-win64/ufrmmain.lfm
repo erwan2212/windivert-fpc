@@ -4,14 +4,15 @@ object frmmain: Tfrmmain
   Top = 193
   Width = 748
   Caption = 'Netdump GUI 1.0 by Erwan2212@gmail.com'
-  ClientHeight = 609
+  ClientHeight = 604
   ClientWidth = 748
+  DesignTimePPI = 120
   Menu = MainMenu1
   OnShow = FormShow
   LCLVersion = '1.8.2.0'
   object ListView1: TListView
     Left = 0
-    Height = 506
+    Height = 496
     Top = 80
     Width = 748
     Align = alClient
@@ -54,17 +55,17 @@ object frmmain: Tfrmmain
     Top = 0
     Width = 748
     Align = alTop
-    ClientHeight = 60
+    ClientHeight = 55
     ClientWidth = 744
     TabOrder = 1
     object cmbfilter: TComboBox
       Left = 0
-      Height = 23
-      Top = 40
+      Height = 28
+      Top = 33
       Width = 744
       Align = alCustom
       Anchors = [akLeft, akRight]
-      ItemHeight = 15
+      ItemHeight = 20
       ItemIndex = 0
       Items.Strings = (
         'ip'
@@ -87,7 +88,7 @@ object frmmain: Tfrmmain
       Top = 0
       Width = 744
       Align = alTop
-      ClientHeight = 20
+      ClientHeight = 15
       ClientWidth = 740
       TabOrder = 1
       OnClick = GroupBox2Click
@@ -112,9 +113,9 @@ object frmmain: Tfrmmain
       end
       object chkcap: TCheckBox
         Left = 512
-        Height = 19
+        Height = 24
         Top = -8
-        Width = 93
+        Width = 117
         Caption = 'capture to file'
         Checked = True
         State = cbChecked
@@ -124,8 +125,8 @@ object frmmain: Tfrmmain
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 23
-    Top = 586
+    Height = 28
+    Top = 576
     Width = 748
     Panels = <>
   end
