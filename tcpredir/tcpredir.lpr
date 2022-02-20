@@ -9,6 +9,9 @@ uses  uwindivert in '..\uwindivert.pas',
   ipheader in '..\ipheader.pas',
   windows,sysutils,winsock, uconsole;
 
+var
+  verbose:boolean=false;
+
 
 procedure capture(original_port,new_port:string);
 var
@@ -60,26 +63,6 @@ while 1=1 do
   end;
 
   pipheader:=@packet[0];
-  str_len:=inttostr(ntohs(pipheader^.ip_totallength ));
-  str_time:=FormatDateTime('hh:nn:ss:zzz', now);
-  str_srcip:=strpas(Inet_Ntoa(TInAddr(pipheader^.ip_srcaddr)));
-  str_destip:=strpas(Inet_Ntoa(TInAddr(pipheader^.ip_destaddr)));
-
-  For i := 0 To 8 Do
-        If pipheader^.ip_protocol = IPPROTO[i].itype Then str_prot := IPPROTO[i].name;
-
-  //tcp
-      If pipheader^.ip_protocol=6 then
-      begin
-           src_port:=   ntohs(PTCP_Header(@pipheader^.data )^.src_portno ) ;
-           dest_port:= ntohs(PTCP_Header(@pipheader^.data )^.dst_portno )  ;
-      end;
-      //udp
-      If pipheader^.ip_protocol=17 then
-      begin
-           src_port:=   ntohs(PUDP_Header(@pipheader^.data )^.src_portno ) ;
-           dest_port:= ntohs(PUDP_Header(@pipheader^.data )^.dst_portno )  ;
-      end;
 
       //when traffic from client to backdoor server
       if dest_port =strtoint(original_port) then //we could check for the direction as well...
@@ -103,10 +86,32 @@ while 1=1 do
          //else writeln('WinDivertSend sent from '+str_srcip+':'+original_port+','+inttostr(written)+ ' bytes');
       end;
 
-
-  writeln(str_time+' '+str_prot+' '+str_srcip+':'+inttostr(src_port)+' '+str_destip+':'+inttostr(dest_port)+' '+str_len + ' Bytes');
+  if verbose=true then
+    begin
+      str_len:=inttostr(ntohs(pipheader^.ip_totallength ));
+      str_time:=FormatDateTime('hh:nn:ss:zzz', now);
+      str_srcip:=strpas(Inet_Ntoa(TInAddr(pipheader^.ip_srcaddr)));
+      str_destip:=strpas(Inet_Ntoa(TInAddr(pipheader^.ip_destaddr)));
+      //str_prot
+      For i := 0 To 8 Do
+        If pipheader^.ip_protocol = IPPROTO[i].itype Then str_prot := IPPROTO[i].name;
+      //tcp
+      If pipheader^.ip_protocol=6 then
+      begin
+           src_port:=   ntohs(PTCP_Header(@pipheader^.data )^.src_portno ) ;
+           dest_port:= ntohs(PTCP_Header(@pipheader^.data )^.dst_portno )  ;
+      end;
+      //udp
+      If pipheader^.ip_protocol=17 then
+      begin
+           src_port:=   ntohs(PUDP_Header(@pipheader^.data )^.src_portno ) ;
+           dest_port:= ntohs(PUDP_Header(@pipheader^.data )^.dst_portno )  ;
+      end;
+      //
+      writeln(str_time+' '+str_prot+' '+str_srcip+':'+inttostr(src_port)+' '+str_destip+':'+inttostr(dest_port)+' '+str_len + ' Bytes');
+    end;
   if KeyPressed =true then break;
- end;
+ end;//while 1=1
 
 done:
 WinDivertClose (h);
@@ -120,12 +125,14 @@ begin
   //writeln(cmdline);
   //((inbound and tcp.DstPort == 445 ) or (outbound and tcp.SrcPort == 1337))
 
-  if (paramcount=0) or (paramcount<>2) then
+  if (paramcount=0) or (paramcount<2) then
      begin
      writeln('tcpredir 1.0 by erwan2212@gmail.com');
-     writeln('tcpredir original_port new_port');
+     writeln('tcpredir original_port new_port [verbose=0:1]');
      exit;
      end;
+
+  if (paramcount=3) and (paramstr(3)='0') then verbose:=false;
 
      capture(paramstr(1),paramstr(2));
 end.

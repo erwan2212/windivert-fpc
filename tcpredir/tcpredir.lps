@@ -10,9 +10,9 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="15"/>
-        <CursorPos X="73" Y="35"/>
-        <UsageCount Value="24"/>
+        <TopLine Value="66"/>
+        <CursorPos X="50" Y="81"/>
+        <UsageCount Value="25"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit0>
@@ -20,7 +20,7 @@
         <Filename Value="uconsole.pas"/>
         <IsPartOfProject Value="True"/>
         <CursorPos X="38" Y="9"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="29"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit1>
@@ -30,7 +30,7 @@
         <EditorIndex Value="2"/>
         <TopLine Value="89"/>
         <CursorPos X="10" Y="105"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="29"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit2>
@@ -41,7 +41,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="29"/>
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit3>
       <Unit4>
@@ -53,7 +53,7 @@
         <DefaultSyntaxHighlighter Value="Delphi"/>
       </Unit4>
     </Units>
-    <JumpHistory Count="20" HistoryIndex="19">
+    <JumpHistory Count="23" HistoryIndex="22">
       <Position1>
         <Filename Value="..\uwindivert.pas"/>
         <Caret Line="46" TopLine="31"/>
@@ -134,6 +134,18 @@
         <Filename Value="tcpredir.lpr"/>
         <Caret Line="89" Column="66" TopLine="73"/>
       </Position20>
+      <Position21>
+        <Filename Value="tcpredir.lpr"/>
+        <Caret Line="107" Column="3" TopLine="87"/>
+      </Position21>
+      <Position22>
+        <Filename Value="tcpredir.lpr"/>
+        <Caret Line="13" Column="25"/>
+      </Position22>
+      <Position23>
+        <Filename Value="tcpredir.lpr"/>
+        <Caret Line="133" Column="59" TopLine="108"/>
+      </Position23>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>
